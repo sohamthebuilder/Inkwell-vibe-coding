@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:opsz,wght@14..32,100..900&family=Shantell+Sans:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-serif: "Lora", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-handwritten: "Shantell Sans", cursive;
 
   --color-cream-50: #FEFCF8;
   --color-cream-100: #FDF9F0;
@@ -26,14 +27,114 @@
   --color-accent-500: #6366F1;
   --color-accent-600: #4F46E5;
   --color-accent-700: #4338CA;
+
+  --color-neutral: #fefdfc;
+  --color-td-primary: #e44232;
+  --color-td-primary-hover: #ee5244;
+  --color-td-primary-active: #d1453b;
+  --color-td-secondary-dark: #fae8d6;
+  --color-td-secondary-mid: #fff5eb;
+  --color-td-secondary-light: #fff9f3;
+
+  --color-red-100: #fff6f0;
+  --color-red-200: #ffefe5;
+  --color-red-300: #fde7d8;
+  --color-red-400: #ffb399;
+  --color-red-500: #e34432;
+  --color-red-600: #cf3520;
+  --color-red-700: #a81f00;
+
+  --color-grey-50: #fcfaf8;
+  --color-grey-100: #f9f7f6;
+  --color-grey-150: #f2efed;
+  --color-grey-200: #e8e5e3;
+  --color-grey-300: #dcd8d5;
+  --color-grey-400: #d0cec8;
+  --color-grey-500: #b9b7b1;
+  --color-grey-600: #97938c;
+  --color-grey-700: #726c65;
+  --color-grey-800: #4c4742;
+  --color-grey-900: #25221e;
+
+  --color-green-100: #f6faeb;
+  --color-green-200: #f0f6df;
+  --color-green-400: #c3d7a7;
+  --color-green-500: #4c7a45;
+  --color-green-600: #446c3d;
+
+  --color-sea-salt-100: #f4fbf7;
+  --color-sea-salt-200: #ebf5f0;
+  --color-sea-salt-400: #baded6;
+  --color-sea-salt-500: #497d7e;
+  --color-sea-salt-600: #417171;
+
+  --color-yellow-100: #fff9eb;
+  --color-yellow-200: #fff5db;
+  --color-yellow-400: #ffd685;
+  --color-yellow-500: #c77b00;
+
+  --color-purple-100: #f9f6fd;
+  --color-purple-200: #f3f0fa;
+  --color-purple-500: #766bbd;
+
+  --color-fuschia-100: #fff5f5;
+  --color-fuschia-200: #fceded;
+  --color-fuschia-500: #c5496c;
+}
+
+:root {
+  --neutral: #fefdfc;
+  --white: #ffffff;
+  --whitetransparent-100: rgba(255 255 255 / .3);
+  --whitetransparent-200: rgba(255 255 255 / .5);
+  --whitetransparent-300: rgba(255 255 255 / .7);
+  --greytransparent-100: rgba(37 34 30 / .04);
+  --greytransparent-150: rgba(37 34 30 / .07);
+  --greytransparent-200: rgba(37 34 30 / .12);
+  --greytransparent-300: rgba(37 34 30 / .18);
+  --greytransparent-400: rgba(37 34 30 / .22);
+  --greytransparent-500: rgba(37 34 30 / .32);
+  --greytransparent-600: rgba(37 34 30 / .49);
+  --greytransparent-700: rgba(37 34 30 / .66);
+  --greytransparent-800: rgba(37 34 30 / .83);
+  --greytransparent-900: #25221e;
+
+  --display-onlight-primary: var(--greytransparent-900);
+  --display-onlight-secondary: var(--greytransparent-700);
+  --display-onlight-tertiary: var(--greytransparent-600);
+
+  --shadow-elevated: 0px 1px 19px 0px rgba(42, 29, 48, .06), 0px 0px 48px 0px rgba(250, 232, 214, .6);
+  --shadow-card-idle: 0 1px 0 var(--greytransparent-100);
+  --shadow-card-hover: 0 1px 1px var(--greytransparent-100), 0 1px 4px -1px var(--greytransparent-150);
+  --shadow-sm: 0 2px 7px 0 rgba(0, 0, 0, .12);
+  --shadow-md: 0px 3px 20px rgba(0, 0, 0, .15);
+  --shadow-lg: 0 2px 6px 0 rgba(0, 0, 0, .06), 0 7px 15px 0 rgba(0, 0, 0, .12);
+  --shadow-overlay: 0 14px 19px -9px var(--greytransparent-150), 0 10px 48px var(--greytransparent-300);
+
+  --border-radius-full: 9999px;
+  --border-radius-2xl: 15px;
+  --border-radius-xl: 13px;
+  --border-radius-lg: 10px;
+  --border-radius-base: 8px;
+  --border-radius-sm: 6px;
+
+  --animation-ease-base: cubic-bezier(.2, .8, .2, 1);
+  --animation-duration-150: .15s;
+  --animation-duration-350: .35s;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-ink-800);
-  background-color: var(--color-cream-50);
+  color: var(--display-onlight-primary);
+  background-color: var(--neutral);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  width: 100%;
+  height: 100%;
 }
 
 .tiptap {
