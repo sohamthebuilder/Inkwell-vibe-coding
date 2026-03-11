@@ -1,0 +1,126 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - React
+  - Vite
+  - Tailwind CSS
+  - Convex
+routes:
+  - path: /
+    file: src/pages/LandingPage.tsx
+    auth_required: false
+    description: Landing page with marketing content and CTA to auth or dashboard
+  - path: /auth
+    file: src/pages/AuthPage.tsx
+    auth_required: false
+    description: Sign in and sign up page with email/password
+  - path: /dashboard
+    file: src/pages/DashboardPage.tsx
+    auth_required: true
+    description: User documents list with create new document
+  - path: /document/:id
+    file: src/pages/EditorPage.tsx
+    auth_required: true
+    description: Document editor with AI chat and knowledge panel
+  - path: /profile
+    file: src/pages/ProfilePage.tsx
+    auth_required: true
+    description: User profile with name and email
+features:
+  - name: Landing Page
+    description: Marketing landing page with navigation and CTA
+    files:
+      - src/pages/LandingPage.tsx
+    entry_route: /
+    user_interactions:
+      - Click Log in to navigate to auth
+      - Click Try Inkwell free to navigate to auth or dashboard
+      - Click Dashboard when authenticated
+    api_calls: []
+    auth_required: false
+  - name: User Authentication
+    description: Sign in and sign up with email and password via Convex Auth
+    files:
+      - src/pages/AuthPage.tsx
+      - convex/auth.ts
+    entry_route: /auth
+    user_interactions:
+      - Toggle between Sign In and Sign Up modes
+      - Fill email input field
+      - Fill password input field
+      - Fill name input field (sign up only)
+      - Click Sign In or Create Account button
+      - See error message on invalid credentials
+      - Redirect to dashboard on success
+    api_calls:
+      - method: mutation
+        endpoint: Convex Auth signIn with password flow
+    auth_required: false
+  - name: Dashboard
+    description: List and create documents
+    files:
+      - src/pages/DashboardPage.tsx
+      - src/components/DocumentCard.tsx
+      - convex/documents.ts
+    entry_route: /dashboard
+    user_interactions:
+      - View list of documents
+      - Click New Document to create and navigate to editor
+      - Click document card to open in editor
+      - See empty state when no documents
+    api_calls:
+      - method: query
+        endpoint: api.documents.list
+      - method: mutation
+        endpoint: api.documents.create
+    auth_required: true
+  - name: Document Editor
+    description: Rich text editor with AI chat and knowledge panel
+    files:
+      - src/pages/EditorPage.tsx
+      - src/components/Editor.tsx
+      - src/components/AIChatPanel.tsx
+      - src/components/KnowledgePanel.tsx
+      - convex/documents.ts
+      - convex/chat.ts
+      - convex/knowledge.ts
+    entry_route: /document/:id
+    user_interactions:
+      - Edit document title
+      - Type in rich text editor
+      - Toggle knowledge panel (left sidebar)
+      - Toggle AI chat panel (right sidebar)
+      - Add knowledge entries
+      - Send messages to AI chat
+      - Add text to context from editor
+      - Insert AI response into document
+      - Navigate back to dashboard
+    api_calls:
+      - method: query
+        endpoint: api.documents.get
+      - method: mutation
+        endpoint: api.documents.update
+      - method: query
+        endpoint: api.knowledge.list
+      - method: action
+        endpoint: api.ai.generate
+    auth_required: true
+  - name: Profile
+    description: View and update user profile
+    files:
+      - src/pages/ProfilePage.tsx
+      - convex/users.ts
+    entry_route: /profile
+    user_interactions:
+      - View name and email
+      - Edit name field
+      - Click Save Changes
+      - See saved confirmation
+    api_calls:
+      - method: query
+        endpoint: api.users.currentUser
+      - method: mutation
+        endpoint: api.users.updateProfile
+    auth_required: true
+known_limitations: []

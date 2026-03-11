@@ -21,6 +21,7 @@ export default function EditorPage() {
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">("idle");
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
+  const [contextSnippets, setContextSnippets] = useState<{ id: string; text: string }[]>([]);
   const editorRef = useRef<ReturnType<typeof useEditor> | null>(null);
 
   useEffect(() => {
@@ -64,6 +65,21 @@ export default function EditorPage() {
     },
     []
   );
+
+  const handleAddToContext = useCallback((text: string) => {
+    setContextSnippets((prev) => {
+      if (prev.some((s) => s.text === text)) return prev;
+      return [...prev, { id: crypto.randomUUID(), text }];
+    });
+  }, []);
+
+  const handleRemoveContext = useCallback((snippetId: string) => {
+    setContextSnippets((prev) => prev.filter((s) => s.id !== snippetId));
+  }, []);
+
+  const handleClearContext = useCallback(() => {
+    setContextSnippets([]);
+  }, []);
 
   if (document === undefined) {
     return (
@@ -218,6 +234,7 @@ export default function EditorPage() {
               content={document.content}
               onUpdate={handleContentUpdate}
               editorRef={editorRef}
+              onAddToContext={handleAddToContext}
             />
           </div>
         </div>
@@ -236,6 +253,9 @@ export default function EditorPage() {
               documentContent={plainTextContent}
               knowledgeEntries={knowledgeEntries}
               onInsertText={handleInsertText}
+              contextSnippets={contextSnippets}
+              onRemoveContext={handleRemoveContext}
+              onClearContext={handleClearContext}
             />
           </div>
         )}

@@ -1,13 +1,22 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { truncateToWords } from "../lib/utils";
 import type { Id } from "../../convex/_generated/dataModel";
+
+interface ContextSnippet {
+  id: string;
+  text: string;
+}
 
 interface AIChatPanelProps {
   documentId: Id<"documents">;
   documentContent: string;
   knowledgeEntries: { title: string; content: string }[];
   onInsertText: (text: string) => void;
+  contextSnippets: ContextSnippet[];
+  onRemoveContext: (id: string) => void;
+  onClearContext: () => void;
 }
 
 export default function AIChatPanel({
@@ -15,6 +24,9 @@ export default function AIChatPanel({
   documentContent,
   knowledgeEntries,
   onInsertText,
+  contextSnippets,
+  onRemoveContext,
+  onClearContext,
 }: AIChatPanelProps) {
   const messages = useQuery(api.chat.list, { documentId });
   const sendMessage = useMutation(api.chat.send);
@@ -33,17 +45,26 @@ export default function AIChatPanel({
     const prompt = input.trim();
     if (!prompt || isGenerating) return;
 
+    const selectedContext = contextSnippets.length > 0
+      ? contextSnippets.map((s) => s.text).join("\n\n")
+      : undefined;
+
     setInput("");
+    onClearContext();
     setIsGenerating(true);
 
     try {
-      await sendMessage({ documentId, role: "user", content: prompt });
+      const displayContent = selectedContext
+        ? `[Context: ${contextSnippets.map((s) => truncateToWords(s.text, 2)).join(", ")}]\n${prompt}`
+        : prompt;
+      await sendMessage({ documentId, role: "user", content: displayContent });
 
       await generateAI({
         documentId,
         prompt,
         documentContent,
         knowledgeEntries,
+        selectedContext,
       });
     } catch (err) {
       console.error("AI generation error:", err);
@@ -190,6 +211,37 @@ export default function AIChatPanel({
         className="p-3"
         style={{ borderTop: "1px solid var(--greytransparent-150)" }}
       >
+        {contextSnippets.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-2">
+            {contextSnippets.map((snippet) => (
+              <div
+                key={snippet.id}
+                className="flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md group"
+                style={{
+                  background: "rgba(228, 66, 50, 0.08)",
+                  color: "var(--color-td-primary)",
+                  border: "1px solid rgba(228, 66, 50, 0.15)",
+                }}
+                title={snippet.text}
+              >
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <path d="M14 2v6h6" />
+                </svg>
+                <span>{truncateToWords(snippet.text, 2)}</span>
+                <button
+                  type="button"
+                  onClick={() => onRemoveContext(snippet.id)}
+                  className="ml-0.5 opacity-50 hover:opacity-100 transition-opacity"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="flex gap-2">
           <input
             type="text"

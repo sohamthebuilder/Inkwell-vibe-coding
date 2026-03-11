@@ -1,4 +1,0 @@
-- When user tries to delete a document in the dashboard page, it should show a popup to confirm action. The UI has to be of the app UI and not a native UI.
-- Add account management in the app
-- Allow the user to highlight the text and add it in the AI chat context
-- All the user to add system instructions to guide the AI chat on the tone it should use, or writing guidelines 

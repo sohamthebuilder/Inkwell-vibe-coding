@@ -106,7 +106,7 @@ export default function DashboardPage() {
               className="font-serif text-xl font-semibold mb-2"
               style={{ color: "var(--display-onlight-primary)" }}
             >
-              No documents yet
+              No documents
             </h2>
             <p
               className="text-sm mb-8 max-w-xs mx-auto"

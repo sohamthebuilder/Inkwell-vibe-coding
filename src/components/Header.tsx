@@ -39,7 +39,7 @@ export default function Header() {
       }}
     >
       <div className="max-w-[1200px] mx-auto px-6 py-3.5 flex items-center justify-between">
-        <Link to="/dashboard" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2" title="Home">
           <div
             className="w-7 h-7 rounded-md flex items-center justify-center"
             style={{ background: "var(--color-td-primary)" }}
@@ -56,7 +56,21 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="relative" ref={dropdownRef}>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/profile"
+            className="text-sm font-medium transition-colors"
+            style={{ color: "var(--display-onlight-secondary)" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--display-onlight-primary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--display-onlight-secondary)";
+            }}
+          >
+            Profile
+          </Link>
+          <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen((v) => !v)}
             className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-all"
@@ -164,6 +178,7 @@ export default function Header() {
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </header>

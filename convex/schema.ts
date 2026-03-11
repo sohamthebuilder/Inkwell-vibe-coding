@@ -28,6 +28,17 @@ const schema = defineSchema({
     content: v.string(),
     createdAt: v.number(),
   }).index("by_document", ["documentId"]),
+
+  subscriptions: defineTable({
+    userId: v.id("users"),
+    email: v.string(),
+    polarSubscriptionId: v.optional(v.string()),
+    status: v.string(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_email", ["email"]),
 });
 
 export default schema;

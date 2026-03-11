@@ -16,6 +16,7 @@ export const generate = action({
         content: v.string(),
       })
     ),
+    selectedContext: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -27,18 +28,23 @@ export const generate = action({
           .join("\n\n")
       : "No reference materials provided.";
 
+    const selectedContextSection = args.selectedContext
+      ? `\n\n## Selected Text (User highlighted this from the document)\n${args.selectedContext}`
+      : "";
+
     const systemMessage = `You are an expert writing assistant helping the user write and edit a document. You have access to reference materials that the user has provided as context.
 
 When the user asks you to write or edit text, produce high-quality prose that:
 - Matches the tone and style of the existing document
 - References the provided knowledge materials when relevant
 - Is clear, concise, and well-structured
+${args.selectedContext ? "- Pay special attention to the selected text the user highlighted — their question likely relates to it" : ""}
 
 ## Reference Materials
 ${knowledgeContext}
 
 ## Current Document
-${args.documentContent || "(The document is currently empty.)"}
+${args.documentContent || "(The document is currently empty.)"}${selectedContextSection}
 
 Respond with ONLY the text content that should be inserted or used in the document. Do not include explanations or meta-commentary unless the user specifically asks for feedback rather than content.`;
 

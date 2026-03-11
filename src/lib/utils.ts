@@ -33,6 +33,12 @@ export function extractPlainText(jsonContent: string): string {
   }
 }
 
+export function truncateToWords(text: string, count: number): string {
+  const words = text.split(/\s+/);
+  if (words.length <= count) return text;
+  return words.slice(0, count).join(" ") + "...";
+}
+
 function extractTextFromNode(node: Record<string, unknown>): string {
   if (node.type === "text" && typeof node.text === "string") {
     return node.text;

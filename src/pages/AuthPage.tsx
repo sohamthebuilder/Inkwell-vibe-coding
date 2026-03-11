@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useConvexAuth } from "convex/react";
 import { Navigate, Link } from "react-router-dom";
+import FreeTrialPopup from "../components/FreeTrialPopup";
 
 export default function AuthPage() {
   const { isAuthenticated } = useConvexAuth();
@@ -12,6 +13,11 @@ export default function AuthPage() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [justSignedUp, setJustSignedUp] = useState(false);
+
+  if (isAuthenticated && justSignedUp) {
+    return <FreeTrialPopup email={email} />;
+  }
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
@@ -25,6 +31,7 @@ export default function AuthPage() {
       const params: Record<string, string> = { email, password, flow: mode };
       if (mode === "signUp") params.name = name;
       await signIn("password", params);
+      if (mode === "signUp") setJustSignedUp(true);
     } catch (err) {
       setError(
         err instanceof Error

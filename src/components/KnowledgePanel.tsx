@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -15,10 +15,16 @@ export default function KnowledgePanel({ documentId }: KnowledgePanelProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) return;
+    setValidationError(null);
+    if (!title.trim()) {
+      setValidationError("Title is required");
+      return;
+    }
+    if (!content.trim()) return;
     await addKnowledge({ documentId, title: title.trim(), content: content.trim() });
     setTitle("");
     setContent("");
@@ -70,7 +76,10 @@ export default function KnowledgePanel({ documentId }: KnowledgePanelProps) {
             <input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (validationError) setValidationError(null);
+              }}
               placeholder="Title"
               className="w-full px-3 py-2 text-sm mb-2 outline-none transition-all focus:ring-2 focus:ring-[rgba(228,66,50,0.15)] focus:border-[#e44232]"
               style={inputStyles}
@@ -84,14 +93,23 @@ export default function KnowledgePanel({ documentId }: KnowledgePanelProps) {
               className="w-full px-3 py-2 text-sm resize-none mb-3 outline-none transition-all focus:ring-2 focus:ring-[rgba(228,66,50,0.15)] focus:border-[#e44232]"
               style={inputStyles}
             />
+            {validationError && (
+              <p
+                className="text-xs mb-2"
+                style={{ color: "var(--color-td-primary)" }}
+              >
+                {validationError}
+              </p>
+            )}
             <button
               type="submit"
-              disabled={!title.trim() || !content.trim()}
+              disabled={!content.trim()}
               className="w-full py-2 text-sm font-semibold text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               style={{
                 background: "var(--color-td-primary)",
                 borderRadius: "var(--border-radius-sm)",
               }}
+              aria-label="Save"
             >
               Add Knowledge
             </button>

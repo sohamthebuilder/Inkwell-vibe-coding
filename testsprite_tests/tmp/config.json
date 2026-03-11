@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "loginUser": "test4@gmail.com",
+  "loginPassword": "qwe12345",
+  "executionArgs": {
+    "projectName": "Inkwell",
+    "projectPath": "/Users/sohambhattacharya/Documents/Cursor Projects/Inkwell",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-E3wLdsxkf6eFqt1ZutLd5zyvCDdppxWGR_kR0Y3lOfz-140lMI0yrepWVZHZRpIvhjEzzSiScSOfYZ8brJqcY1JIHXZzUlYTOJpLM_bOYe09GZnefMlkbxjbndjH0EHdNfo"
+    }
+  },
+  "serverPort": 53072,
+  "proxy": "http://25ffd851-dae2-4565-8ed0-769fbb14d8c0:sISbFgzfyd36mj16eezQRU4RoYSa0so3@tun.testsprite.com:8080"
+}
