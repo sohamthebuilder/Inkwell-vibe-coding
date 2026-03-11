@@ -67,9 +67,25 @@ export default function EditorPage() {
 
   if (document === undefined) {
     return (
-      <div className="min-h-screen bg-cream-50 flex items-center justify-center">
-        <div className="text-ink-400 font-serif text-lg animate-pulse">
-          Loading document...
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: "var(--neutral)" }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center animate-pulse"
+            style={{ background: "var(--color-td-primary)" }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+            </svg>
+          </div>
+          <p
+            className="text-sm font-medium"
+            style={{ color: "var(--display-onlight-tertiary)" }}
+          >
+            Loading document...
+          </p>
         </div>
       </div>
     );
@@ -84,19 +100,39 @@ export default function EditorPage() {
 
   const plainTextContent = extractPlainText(document.content);
 
+  const toggleBtnStyles = (isActive: boolean): React.CSSProperties => ({
+    background: isActive ? "rgba(228, 66, 50, 0.08)" : "transparent",
+    color: isActive ? "var(--color-td-primary)" : "var(--display-onlight-tertiary)",
+    borderRadius: "var(--border-radius-sm)",
+  });
+
   return (
-    <div className="h-screen flex flex-col bg-cream-50">
+    <div className="h-screen flex flex-col" style={{ background: "var(--neutral)" }}>
       {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-white border-b border-cream-200 shrink-0">
+      <div
+        className="flex items-center justify-between px-4 py-2.5 shrink-0"
+        style={{
+          background: "var(--white)",
+          borderBottom: "1px solid var(--greytransparent-150)",
+        }}
+      >
         <div className="flex items-center gap-3">
           <Link
             to="/dashboard"
-            className="p-1.5 text-ink-400 hover:text-ink-600 hover:bg-cream-100
-                       rounded-lg transition-colors"
+            className="p-1.5 rounded-md transition-all"
+            style={{ color: "var(--display-onlight-tertiary)" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--greytransparent-150)";
+              e.currentTarget.style.color = "var(--display-onlight-primary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "var(--display-onlight-tertiary)";
+            }}
             title="Back to dashboard"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
           </Link>
 
@@ -107,7 +143,10 @@ export default function EditorPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs text-ink-300">
+          <span
+            className="text-xs font-medium"
+            style={{ color: "var(--display-onlight-tertiary)" }}
+          >
             {saveStatus === "saving"
               ? "Saving..."
               : saveStatus === "saved"
@@ -115,27 +154,43 @@ export default function EditorPage() {
                 : `Last saved ${formatDate(document.updatedAt)}`}
           </span>
 
+          <div
+            className="w-px h-5"
+            style={{ background: "var(--greytransparent-200)" }}
+          />
+
           <button
             onClick={() => setLeftOpen(!leftOpen)}
-            className={`p-1.5 rounded-lg transition-colors ${
-              leftOpen ? "bg-accent-500/10 text-accent-500" : "text-ink-400 hover:text-ink-600 hover:bg-cream-100"
-            }`}
+            className="p-1.5 transition-all"
+            style={toggleBtnStyles(leftOpen)}
+            onMouseEnter={(e) => {
+              if (!leftOpen) e.currentTarget.style.background = "var(--greytransparent-150)";
+            }}
+            onMouseLeave={(e) => {
+              if (!leftOpen) e.currentTarget.style.background = "transparent";
+            }}
             title="Toggle knowledge panel"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
             </svg>
           </button>
 
           <button
             onClick={() => setRightOpen(!rightOpen)}
-            className={`p-1.5 rounded-lg transition-colors ${
-              rightOpen ? "bg-accent-500/10 text-accent-500" : "text-ink-400 hover:text-ink-600 hover:bg-cream-100"
-            }`}
+            className="p-1.5 transition-all"
+            style={toggleBtnStyles(rightOpen)}
+            onMouseEnter={(e) => {
+              if (!rightOpen) e.currentTarget.style.background = "var(--greytransparent-150)";
+            }}
+            onMouseLeave={(e) => {
+              if (!rightOpen) e.currentTarget.style.background = "transparent";
+            }}
             title="Toggle AI assistant"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z" />
             </svg>
           </button>
         </div>
@@ -145,13 +200,19 @@ export default function EditorPage() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar - Knowledge */}
         {leftOpen && (
-          <div className="w-72 border-r border-cream-200 bg-white shrink-0 overflow-hidden">
+          <div
+            className="w-72 shrink-0 overflow-hidden"
+            style={{
+              background: "var(--white)",
+              borderRight: "1px solid var(--greytransparent-150)",
+            }}
+          >
             <KnowledgePanel documentId={documentId} />
           </div>
         )}
 
         {/* Center - Editor */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto" style={{ background: "var(--neutral)" }}>
           <div className="max-w-3xl mx-auto px-8 py-8">
             <Editor
               content={document.content}
@@ -163,7 +224,13 @@ export default function EditorPage() {
 
         {/* Right Sidebar - AI Chat */}
         {rightOpen && (
-          <div className="w-80 border-l border-cream-200 bg-white shrink-0 overflow-hidden">
+          <div
+            className="w-80 shrink-0 overflow-hidden"
+            style={{
+              background: "var(--white)",
+              borderLeft: "1px solid var(--greytransparent-150)",
+            }}
+          >
             <AIChatPanel
               documentId={documentId}
               documentContent={plainTextContent}
@@ -205,9 +272,10 @@ function TitleInput({
       type="text"
       value={localValue}
       onChange={handleChange}
-      className="font-serif text-lg font-semibold text-ink-800 bg-transparent
-                 border-none outline-none placeholder:text-ink-300
-                 w-64 md:w-96"
+      className="font-serif text-base font-semibold bg-transparent border-none outline-none w-64 md:w-96"
+      style={{
+        color: "var(--display-onlight-primary)",
+      }}
       placeholder="Untitled"
     />
   );

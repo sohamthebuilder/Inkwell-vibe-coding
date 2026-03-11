@@ -15,63 +15,123 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen" style={{ background: "var(--neutral)" }}>
       <Header />
 
-      <main className="max-w-6xl mx-auto px-8 py-10">
+      <main className="max-w-[1200px] mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="font-serif text-3xl font-bold text-ink-900">
-            Your Documents
-          </h1>
+          <div>
+            <h1
+              className="font-serif text-2xl font-semibold"
+              style={{
+                color: "var(--display-onlight-primary)",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Your Documents
+            </h1>
+            <p
+              className="mt-1 text-sm"
+              style={{ color: "var(--display-onlight-tertiary)" }}
+            >
+              {documents !== undefined && documents.length > 0
+                ? `${documents.length} document${documents.length !== 1 ? "s" : ""}`
+                : ""}
+            </p>
+          </div>
           <button
             onClick={handleCreate}
-            className="flex items-center gap-2 px-5 py-2.5 bg-accent-500 text-white rounded-xl
-                       font-medium hover:bg-accent-600 transition-colors shadow-sm"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white transition-all"
+            style={{
+              background: "var(--color-td-primary)",
+              borderRadius: "var(--border-radius-base)",
+              boxShadow: "0 1px 3px rgba(228, 66, 50, 0.3)",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#ee5244")}
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = "var(--color-td-primary)")
+            }
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12h14" />
             </svg>
             New Document
           </button>
         </div>
 
         {documents === undefined ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl border border-cream-200 p-6 animate-pulse"
+                className="rounded-xl p-6 animate-pulse"
+                style={{
+                  background: "var(--white)",
+                  border: "1px solid var(--greytransparent-150)",
+                }}
               >
-                <div className="h-5 bg-cream-200 rounded w-2/3 mb-4" />
-                <div className="h-3 bg-cream-100 rounded w-full mb-2" />
-                <div className="h-3 bg-cream-100 rounded w-4/5 mb-2" />
-                <div className="h-3 bg-cream-100 rounded w-1/2 mt-6" />
+                <div
+                  className="h-5 rounded w-2/3 mb-4"
+                  style={{ background: "var(--greytransparent-150)" }}
+                />
+                <div
+                  className="h-3 rounded w-full mb-2"
+                  style={{ background: "var(--greytransparent-100)" }}
+                />
+                <div
+                  className="h-3 rounded w-4/5 mb-2"
+                  style={{ background: "var(--greytransparent-100)" }}
+                />
+                <div
+                  className="h-3 rounded w-1/2 mt-6"
+                  style={{ background: "var(--greytransparent-100)" }}
+                />
               </div>
             ))}
           </div>
         ) : documents.length === 0 ? (
           <div className="text-center py-24">
-            <div className="inline-block p-4 bg-cream-200 rounded-2xl mb-6">
-              <svg className="w-12 h-12 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            <div
+              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
+              style={{ background: "var(--greytransparent-150)" }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ stroke: "var(--display-onlight-tertiary)" }}>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                <path d="M14 2v6h6" />
+                <path d="M12 18v-6" />
+                <path d="M9 15h6" />
               </svg>
             </div>
-            <h2 className="font-serif text-2xl font-semibold text-ink-700 mb-2">
+            <h2
+              className="font-serif text-xl font-semibold mb-2"
+              style={{ color: "var(--display-onlight-primary)" }}
+            >
               No documents yet
             </h2>
-            <p className="text-ink-400 mb-6">
+            <p
+              className="text-sm mb-8 max-w-xs mx-auto"
+              style={{ color: "var(--display-onlight-tertiary)", lineHeight: 1.6 }}
+            >
               Create your first document to start writing with AI assistance.
             </p>
             <button
               onClick={handleCreate}
-              className="px-6 py-3 bg-accent-500 text-white rounded-xl font-semibold
-                         hover:bg-accent-600 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white transition-all"
+              style={{
+                background: "var(--color-td-primary)",
+                borderRadius: "var(--border-radius-base)",
+                boxShadow: "0 2px 8px rgba(228, 66, 50, 0.25)",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#ee5244")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "var(--color-td-primary)")
+              }
             >
               Create Your First Document
             </button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {documents.map((doc) => (
               <DocumentCard
                 key={doc._id}

@@ -7,18 +7,37 @@ interface EditorToolbarProps {
 export default function EditorToolbar({ editor }: EditorToolbarProps) {
   if (!editor) return null;
 
-  const btnClass = (active: boolean) =>
-    `p-2 rounded-lg transition-colors ${
-      active
-        ? "bg-accent-500/10 text-accent-600"
-        : "text-ink-400 hover:bg-cream-200 hover:text-ink-600"
-    }`;
+  const btnStyle = (active: boolean): React.CSSProperties => ({
+    padding: "6px",
+    borderRadius: "var(--border-radius-sm)",
+    transition: "all 0.15s ease",
+    background: active ? "rgba(228, 66, 50, 0.08)" : "transparent",
+    color: active ? "var(--color-td-primary)" : "var(--display-onlight-tertiary)",
+    cursor: "pointer",
+  });
+
+  const disabledStyle: React.CSSProperties = {
+    padding: "6px",
+    borderRadius: "var(--border-radius-sm)",
+    color: "var(--greytransparent-300)",
+    cursor: "not-allowed",
+  };
+
+  const dividerStyle: React.CSSProperties = {
+    width: "1px",
+    height: "20px",
+    background: "var(--greytransparent-200)",
+    margin: "0 4px",
+  };
 
   return (
-    <div className="flex items-center gap-1 flex-wrap border-b border-cream-200 pb-3 mb-4">
+    <div
+      className="flex items-center gap-1 flex-wrap pb-3 mb-4"
+      style={{ borderBottom: "1px solid var(--greytransparent-150)" }}
+    >
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={btnClass(editor.isActive("bold"))}
+        style={btnStyle(editor.isActive("bold"))}
         title="Bold"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -28,7 +47,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={btnClass(editor.isActive("italic"))}
+        style={btnStyle(editor.isActive("italic"))}
         title="Italic"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -40,7 +59,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={btnClass(editor.isActive("strike"))}
+        style={btnStyle(editor.isActive("strike"))}
         title="Strikethrough"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -49,37 +68,37 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         </svg>
       </button>
 
-      <div className="w-px h-6 bg-cream-200 mx-1" />
+      <div style={dividerStyle} />
 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={btnClass(editor.isActive("heading", { level: 1 }))}
+        style={btnStyle(editor.isActive("heading", { level: 1 }))}
         title="Heading 1"
       >
-        <span className="text-sm font-bold">H1</span>
+        <span className="text-xs font-bold leading-none">H1</span>
       </button>
 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={btnClass(editor.isActive("heading", { level: 2 }))}
+        style={btnStyle(editor.isActive("heading", { level: 2 }))}
         title="Heading 2"
       >
-        <span className="text-sm font-bold">H2</span>
+        <span className="text-xs font-bold leading-none">H2</span>
       </button>
 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={btnClass(editor.isActive("heading", { level: 3 }))}
+        style={btnStyle(editor.isActive("heading", { level: 3 }))}
         title="Heading 3"
       >
-        <span className="text-sm font-bold">H3</span>
+        <span className="text-xs font-bold leading-none">H3</span>
       </button>
 
-      <div className="w-px h-6 bg-cream-200 mx-1" />
+      <div style={dividerStyle} />
 
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={btnClass(editor.isActive("bulletList"))}
+        style={btnStyle(editor.isActive("bulletList"))}
         title="Bullet list"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -94,7 +113,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={btnClass(editor.isActive("orderedList"))}
+        style={btnStyle(editor.isActive("orderedList"))}
         title="Numbered list"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -109,7 +128,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={btnClass(editor.isActive("blockquote"))}
+        style={btnStyle(editor.isActive("blockquote"))}
         title="Blockquote"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -117,16 +136,12 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         </svg>
       </button>
 
-      <div className="w-px h-6 bg-cream-200 mx-1" />
+      <div style={dividerStyle} />
 
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
-        className={`p-2 rounded-lg transition-colors ${
-          editor.can().undo()
-            ? "text-ink-400 hover:bg-cream-200 hover:text-ink-600"
-            : "text-ink-200 cursor-not-allowed"
-        }`}
+        style={editor.can().undo() ? btnStyle(false) : disabledStyle}
         title="Undo"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -137,11 +152,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().redo()}
-        className={`p-2 rounded-lg transition-colors ${
-          editor.can().redo()
-            ? "text-ink-400 hover:bg-cream-200 hover:text-ink-600"
-            : "text-ink-200 cursor-not-allowed"
-        }`}
+        style={editor.can().redo() ? btnStyle(false) : disabledStyle}
         title="Redo"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
