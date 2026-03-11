@@ -203,7 +203,12 @@ export default function FreeTrialPopup({ email }: { email: string }) {
         </button>
 
         <button
-          onClick={() => navigate("/dashboard", { replace: true })}
+          onClick={() => {
+            // #region agent log
+            fetch('http://127.0.0.1:7886/ingest/d96981d0-0cd0-42b2-981b-3b729d0b7623',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'909718'},body:JSON.stringify({sessionId:'909718',location:'FreeTrialPopup.tsx:Skip',message:'Skip for now clicked',data:{email},hypothesisId:'C',timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+            navigate("/dashboard", { replace: true });
+          }}
           className="w-full mt-3 py-2.5 text-sm font-medium transition-colors"
           style={{ color: "var(--display-onlight-tertiary)" }}
           onMouseEnter={(e) => {

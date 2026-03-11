@@ -30,6 +30,9 @@ export default function AuthPage() {
     try {
       const params: Record<string, string> = { email, password, flow: mode };
       if (mode === "signUp") params.name = name;
+      // #region agent log
+      fetch('http://127.0.0.1:7886/ingest/d96981d0-0cd0-42b2-981b-3b729d0b7623',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'909718'},body:JSON.stringify({sessionId:'909718',location:'AuthPage.tsx:handleSubmit',message:'signIn params before auth',data:{name,hasName:!!name,mode},hypothesisId:'A',timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       await signIn("password", params);
       if (mode === "signUp") setJustSignedUp(true);
     } catch (err) {
