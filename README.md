@@ -8,6 +8,8 @@ Inkwell is a full-stack, AI-powered document editor that combines a rich text wr
 <img width="1903" height="1061" alt="photo-collage png" src="https://github.com/user-attachments/assets/b6973a42-d393-444d-a61c-96d1a9685061" />
 
 
+Huge shoutout to the youtube tutorial I learned from: https://youtu.be/Qcxq4iXLZbY
+
 **Live stack:** React 19 · TypeScript · Vite 7 · Tailwind CSS v4 · TipTap · Convex · OpenAI GPT-4o · Polar
 
 ---
