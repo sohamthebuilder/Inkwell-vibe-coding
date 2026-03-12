@@ -4,6 +4,10 @@
 
 Inkwell is a full-stack, AI-powered document editor that combines a rich text writing environment, a per-document knowledge base, and a context-aware AI co-writer. Users add their reference materials, and the AI uses both the document content and those references to assist writing — without losing the author's voice.
 
+<img width="1440" height="819" alt="Screenshot 2026-03-12 at 9 56 20 AM" src="https://github.com/user-attachments/assets/709bd454-9464-498b-aed8-b1d44d68802d" />
+<img width="1903" height="1061" alt="photo-collage png" src="https://github.com/user-attachments/assets/b6973a42-d393-444d-a61c-96d1a9685061" />
+
+
 **Live stack:** React 19 · TypeScript · Vite 7 · Tailwind CSS v4 · TipTap · Convex · OpenAI GPT-4o · Polar
 
 ---
